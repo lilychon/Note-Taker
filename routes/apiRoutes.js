@@ -12,8 +12,13 @@ module.exports = function (app) {
 
     app.post("/api/notes", function (req, res) {
         let newNote = req.body;
-        let lastId = noteContents[noteContents.length - 1]["id"];
-        let newId = lastId + 1;
+        let lastId = 0;
+        if (noteContents.length !==0){
+        
+         lastId =  noteContents[noteContents.length - 1]["id"];
+        }
+         let newId = lastId + 1;
+        
         newNote["id"] = newId;
 
         console.log("Req.body:", req.body);
