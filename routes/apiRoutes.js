@@ -46,7 +46,7 @@ module.exports = function (app) {
 
                 let noteJSON = JSON.stringify(noteContents, null, 2);
 
-                writeFileAsync("./db/noteContents.json", noteJSON).then(function () {
+                writeFileAsync("db/db.json", noteJSON).then(function () {
                     console.log("Note has been deleted");
                 });
             }
