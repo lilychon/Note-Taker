@@ -9,22 +9,25 @@ var noteContents;
 module.exports = function (app) {
 
     app.get("/api/notes", function (req, res) {
-   readFileAsync("db/db.json", "utf8", (err, data =>{
-       noteContents = JSON.parse(data)
-    res.json(noteContents);
-   }))
-        
-    });
+        readFileAsync("db/db.json", "utf8").then(function (data) {
+            noteContents = JSON.parse(data)
+            res.json(noteContents);
+        })
+    })
+
+
 
     app.post("/api/notes", function (req, res) {
         let newNote = req.body;
         let lastId = 0;
-        if (noteContents.length !==0){
-        
-         lastId =  noteContents[noteContents.length - 1]["id"];
+        if (noteContents.length !== 0) {
+
+            lastId = noteContents[noteContents.length - 1]["id"];
         }
-         let newId = lastId + 1;
-        
+
+        // ternary  let result = noteeconte.length === 0 ? 0 || othere
+        let newId = lastId + 1;
+
         newNote["id"] = newId;
 
         console.log("Req.body:", req.body);
