@@ -1,13 +1,19 @@
-var noteContents = require("../db/noteContents")
+//var noteContents = require("../db/noteContents")
 
 const fs = require("fs");
 const util = require("util");
 const writeFileAsync = util.promisify(fs.writeFile);
+const readFileAsync = util.promisify(fs.readFile);
 
+var noteContents;
 module.exports = function (app) {
 
     app.get("/api/notes", function (req, res) {
-        res.json(noteContents);
+   readFileAsync("db/db.json", "utf8", (err, data =>{
+       noteContents = JSON.parse(data)
+    res.json(noteContents);
+   }))
+        
     });
 
     app.post("/api/notes", function (req, res) {
@@ -24,7 +30,7 @@ module.exports = function (app) {
         console.log("Req.body:", req.body);
         noteContents.push(newNote);
 
-        writeFileAsync("./db/noteContents.json", JSON.stringify(noteContents)).then(function () {
+        writeFileAsync("db/db.json", JSON.stringify(noteContents)).then(function () {
             console.log("Note has been updated");
         });
 
